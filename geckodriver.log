@@ -1,0 +1,122 @@
+1513469839761	geckodriver	INFO	geckodriver 0.19.1
+1513469839777	geckodriver	INFO	Listening on 127.0.0.1:57910
+1513469841841	mozrunner::runner	INFO	Running command: "C:\\Program Files (x86)\\Mozilla Firefox\\firefox.exe" "-marionette" "-profile" "C:\\Users\\Ellen\\AppData\\Local\\Temp\\rust_mozprofile.CgNvaAxmYJVG"
+1513469842535	Marionette	INFO	Enabled via --marionette
+1513469845409	Marionette	INFO	Listening on port 57916
+1513469845548	Marionette	WARN	TLS certificate errors will be ignored for this session
+Unable to read VR Path Registry from C:\Users\Ellen\AppData\Local\openvr\openvrpaths.vrpath
+JavaScript warning: https://www.netteller.com/login2008/Scripts/jquery-1.9.1.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://www.netteller.com/login2008/Scripts/jquery-1.9.1.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://www.netteller.com/login2008/Scripts/jquery-1.9.1.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://www.netteller.com/login2008/Scripts/jquery-1.9.1.min.js, line 2: Using //@ to indicate sourceMappingURL pragmas is deprecated. Use //# instead
+JavaScript warning: https://www.netteller.com/login2008/Scripts/plugins/jquery.jhaDatePicker.js, line 74: unreachable code after return statement
+JavaScript warning: https://www.netteller.com/login2008/Scripts/plugins/jquery.jhaDatePicker.js, line 74: unreachable code after return statement
+JavaScript error: https://www.netteller.com/login2008/Views/Retail/AccountTransactions.aspx, line 623: ReferenceError: Shadowbox is not defined
+JavaScript warning: https://www.netteller.com/login2008/Scripts/plugins/jquery.jhaDatePicker.js, line 74: unreachable code after return statement
+ file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 8816, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+Unable to read VR Path Registry from C:\Users\Ellen\AppData\Local\openvr\openvrpaths.vrpath
+returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+age] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized,
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+urned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+IPDL protocol error: Handler returned error code!
+
+###!!! [Parent][DispatchAsyncMessage] Error: PLayerTransaction::Msg_ReleaseLayer Processing error: message was deserialized, but the handler returned false (indicating failure)
+
+Unable to read VR Path Registry from C:\Users\Ellen\AppData\Local\openvr\openvrpaths.vrpath
+[Parent 9260, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+vtools/shared/base-loader.js -> resource://devtools/server/actors/tab.js:1626:7
+exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+Line: 782, column: 0
+Handler function DebuggerProgressListener.prototype.onStateChange threw an exception: [Exception... "Component returned failure code: 0x80004002 (NS_NOINTERFACE) [nsIWebProgress.DOMWindow]"  nsresult: "0x80004002 (NS_NOINTERFACE)"  location: "JS frame :: resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/tab.js :: DebuggerProgressListener.prototype.onStateChange< :: line 1629"  data: no]
+Stack: DebuggerProgressListener.prototype.onStateChange<@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/tab.js:1629:9
+exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+Line: 1629, column: 0
+console.error: 
+  Handler function DebuggerProgressListener.prototype.onStateChange threw an exception: [Exception... "Component returned failure code: 0x80004002 (NS_NOINTERFACE) [nsIWebProgress.DOMWindow]"  nsresult: "0x80004002 (NS_NOINTERFACE)"  location: "JS frame :: resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/tab.js :: DebuggerProgressListener.prototype.onStateChange< :: line 1629"  data: no]
+Stack: DebuggerProgressListener.prototype.onStateChange<@resource://devtools/shared/base-loader.js -> resource://devtools/server/actors/tab.js:1629:9
+exports.makeInfallible/<@resource://devtools/shared/base-loader.js -> resource://devtools/shared/ThreadSafeDevToolsUtils.js:109:14
+Line: 1629, column: 0
+Unable to read VR Path Registry from C:\Users\Ellen\AppData\Local\openvr\openvrpaths.vrpath
+[Child 5764, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 5764, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+Unable to read VR Path Registry from C:\Users\Ellen\AppData\Local\openvr\openvrpaths.vrpath
+[Child 14348, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 14348, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 18040, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 18040, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+Unable to read VR Path Registry from C:\Users\Ellen\AppData\Local\openvr\openvrpaths.vrpath
+[Child 2144, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 2144, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
+Unable to read VR Path Registry from C:\Users\Ellen\AppData\Local\openvr\openvrpaths.vrpath
+c/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: This operation requires zeroing texture data. This is slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2676: Error: WebGL warning: copyTexSubImage2D: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2676: Error: WebGL warning: copyTexSubImage2D: This operation requires zeroing texture data. This is slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: This operation requires zeroing texture data. This is slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: This operation requires zeroing texture data. This is slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: This operation requires zeroing texture data. This is slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: This operation requires zeroing texture data. This is slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2676: Error: WebGL warning: copyTexSubImage2D: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2676: Error: WebGL warning: copyTexSubImage2D: This operation requires zeroing texture data. This is slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2676: Error: WebGL warning: copyTexSubImage2D: Texture has not been initialized prior to a partial upload, forcing the browser to clear it. This may be slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2676: Error: WebGL warning: copyTexSubImage2D: This operation requires zeroing texture data. This is slow.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+JavaScript warning: https://www.google.com/maps/search/38th+and+baltimore+Philadelphia,+PA/@39.9495721,-75.199728,17z, line 2657: Error: WebGL warning: texSubImage2D: Alpha-premult and y-flip are deprecated for non-DOM-Element uploads.
+[Parent 6436, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Parent 6436, Gecko_IOThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+Unable to read VR Path Registry from C:\Users\Ellen\AppData\Local\openvr\openvrpaths.vrpath
+[Child 8468, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 8672, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 8672, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 13700, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+[Child 13700, Chrome_ChildThread] WARNING: pipe error: 109: file z:/build/build/src/ipc/chromium/src/chrome/common/ipc_channel_win.cc, line 346
+
+###!!! [Child][MessageChannel::SendAndWait] Error: Channel error: cannot send/recv
+
