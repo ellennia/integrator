@@ -1,7 +1,0 @@
-Technologies that have to be looked into:
-- PhantomJS integration
-- Markdown for the web page itself
-- SQLITE3 again for the storage of the data
-- Python exchange rate API (pip install forex-python) https://pypi.python.org/pypi/forex-python
-- JS to auto-update the page
-- Weather retrieval app
