@@ -1,29 +1,30 @@
 '''
-    Integrator
-    Account fetcher
-    Selenium
+    Integrator - A flask-based personal web app to Integrate financial and other
+        relevant information.
 
     Todo:
-        - PhantomJS instead of Firefox
-        - Store the time when NECU info was loaded
-        - Make page autorefresh data every minute
+        - Use PhantomJS instead of Firefox
+        - Add JS to web page to automatically refresh the page.
         - Use Markdown and prettify the HTML output
         - Store account data in a sqlite3 database so reloading doesn't necessarily fetch
+
+    Creates a web page that will auto-update to get bank information.
+    It will then display that data meaningfully.
 '''
 
 from os import environ
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from decimal import *
-from flask import Flask
 import time
+from flask import Flask
 import sqlite3
 
-app = Flask(__name__)
-print('Initializing Integrator... User account name: {}'.format(environ.get('USERNAME')))
-
-accounts = []
-
+'''
+    An entire person's online banking account.
+    Has more 'accounts' (savings/checking etc.) can be attached
+    to this AccountSummarizer.
+'''
 class AccountSummarizer():
     def __init__(self, account_tuples):
         self.accounts = [Account(tpl) for tpl in account_tuples]
@@ -38,6 +39,9 @@ class AccountSummarizer():
     def total(self):
         return sum([acc.total for acc in self.accounts])
 
+'''
+    A single bank account. Either checking or savings.
+'''
 class Account():
     def __init__(self, tpl):
         self.data = tpl
@@ -48,9 +52,10 @@ class Account():
     def recent_transactions():
         pass
 
-def format_acc(tpl): 
-    print('{} account: Available ${} || Total: ${}'.format(tpl.name, tpl.available, tpl.total))
-
+'''
+    Log into, then scrape NECU's website for account information.
+    The username and password are retrieved from environmental variables.
+'''
 def fetch_necu_accounts():
     # Login in to my necu account with selenium/firefox
     necu_url = 'https://www.netteller.com/login2008/Authentication/Views/Login.aspx?returnUrl=%2fnecu'
@@ -101,34 +106,42 @@ def fetch_necu_accounts():
 
     return AccountSummarizer(accounts)
 
-print('Waiting to contact NECU...')
-accounts = fetch_necu_accounts()
-print('Initial fetch made.')
-
-def cli_account_summary():
-    # CLI output
-    print('NECU Account Information--')
-    print(str(accounts.count()) + ' accounts found')
+'''
+    Print out a summary of a person's NECU account information
+    out to the console.
+'''
+def cli_account_summary(accounts):
+    print('## NECU Accounts Information')
+    print('      (' + str(accounts.count()) + ') accounts found')
     for account in accounts.accounts:
-        format_acc(account)
-    print('Available money: ${}'.format(accounts.available()))
-    print('Total money: ${}'.format(accounts.total()))
+        print('         {} account: Available ${} | Total: ${}'.format(account.name, account.available, account.total))
+    print('     Total available money: ${}'.format(accounts.available()))
+    print('     Total money: ${}'.format(accounts.total()))
+    print('## End NECU Accounts Information')
 
-''' Check when the NECU account was last updated.
-    If it was over 1 minute ago, update it again. '''
+# Initialize Flask
+print('Starting Integrator | OS user account name: \'{}\''.format(environ.get('USERNAME')))
+app = Flask(__name__)
+
+''' Check when the local copy of the NECU account info was last updated.
+    If it was over 1 minute ago, contact NECU and update it again. '''
 def ping_necu():
     global accounts
     need_fetch = False
 
-    if accounts.time < time.time() - 100:
+    # Refresh data every minute
+    if accounts.time < time.time() - 60: 
         need_fetch = True
 
     if need_fetch:
-        print('Fetching...')
+        print('Cache expired, updating NECU data...')
         accounts = fetch_necu_accounts()
     else:
         print('No fetch needed: {} {}'.format(accounts.time, time.time()))
 
+'''
+    The main page of the web app.
+'''
 @app.route('/')
 def integrator():
     page = ''
@@ -139,5 +152,8 @@ def integrator():
     page += 'Total present: ${}<p>'.format(accounts.total())
     return page + '<font size="144"><b>${}</b></font>'.format(accounts.available())
 
-cli_account_summary()
+print('Contacting NECU and downloading account info...')
+accounts = fetch_necu_accounts()
+print('Startup NECU fetch completed.')
+cli_account_summary(accounts) # Print out info to the console
 app.run(debug=False, host='0.0.0.0', port=80)
