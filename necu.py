@@ -9,41 +9,7 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-'''
-    An entire person's online banking account.
-    Has more 'accounts' (savings/checking etc.) can be attached
-    to this AccountSummarizer.
-'''
-class AccountSummarizer():
-    def __init__(self, account_data):
-        self.accounts = [Account(tpl) for tpl in account_data]
-        self.time = time.time()
-
-    def count(self):
-        return len(self.accounts)
-
-    def available(self):
-        return sum([acc.available for acc in self.accounts])
-
-    def total(self):
-        return sum([acc.total for acc in self.accounts])
-
-'''
-    A single bank account. Either checking or savings.
-'''
-class Account():
-    def __init__(self, data):
-        self.data = data
-        self.name = data[0]
-        self.available = data[1]
-        self.total = data[2]
-        self.transactions = []
-        self.fetched_transactions = False
-
-    def recent_transactions(self):
-        if self.fetched_transactions == False:
-            pass
-        return self.transactions
+from cache import *
 
 browser = webdriver.Firefox()
 

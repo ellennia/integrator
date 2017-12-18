@@ -1,3 +1,5 @@
+#!/usr/bin/python
+# -*- encoding: UTF-8 -*-
 '''
     Integrator - 
         A flask-based personal web app to Integrate financial and other
@@ -24,48 +26,13 @@ from decimal import *
 import time
 import sqlite3
 import markdown
-import time
 
 from flask import Flask, Markup
 
 from necu import *
+from cache import *
 
-'''
-    Store a collection of AccountSummary 'frames'.
-    This is so the program can look back at account history every time.
-    Should add a new frame roughly every minute when connected to
-    the Internet.
-'''
-class Cache():
-    def __init__(self):
-        self.frames = []
-
-    def add_frame(self, summ):
-        self.frames.append(summ)
-
-    def present(self):
-        return self.frames[len(self.frames) - 1]
-
-    def last_update(self):
-        return self.present().time
-
-    def ping(self):
-        global login_info
-
-        need_fetch = False
-
-        # If it has been a minute since the current cached date was retrieved,
-        # sets the boolean to indicate that new data is needed.
-        if self.last_update() < time.time() - 60: 
-            need_fetch = True
-
-        # If cache was marked expired, it loads website data again to renew the cache.
-        if need_fetch:
-            print('Cache expired, updating NECU data...')
-            self.add_frame(fetch_necu_accounts(False, login_info))
-            print('Frame count: {}'.format(len(self.frames)))
-        else:
-            print('No fetch needed: {} {}'.format(self.last_update(), time.time()))
+print('Imports successful.')
 
 '''
     Print out a summary of a person's NECU account information
@@ -92,18 +59,23 @@ def integrator():
     cache.ping()
     frame = cache.present()
 
-    page = '# Integrator\n'
+    # Markdown
+    page = '### Integrator Webapp\n'
     page += '## Ellen\'s NECU Account Details\n'
-
     for account in frame.accounts:
-        page += '+ {}: <b>${}</b> available, ${} present<br>\n'.format(account.name, account.available, account.total)
-
+        page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
     page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
     page += 'Total present: ${}<p>\n'.format(frame.total())
-    page += '# Current time: {}\n'.format(time.time())
-    page += '# Balance ${}\n'.format(frame.available())
+    page += '# Time: {}\n'.format(time.time())
+    page += '# Ellen\'s Balance ${}\n'.format(frame.available())
+    page += '#### Forex data (equivalents): {} - Î {}'.format('0', '0')
+    markdown_portion = markdown.markdown(page)
+    # End markdown
 
-    return Markup(markdown.markdown(page))
+    #template = render_template('home.html')
+    #somehow combine template and markdown, don't recall how
+
+    return '<title>Integrator</title><body><center>' + markdown_portion
 
 '''
     Data retrival and submit function
