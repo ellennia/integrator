@@ -6,4 +6,5 @@ ghostdriver.log
 geckodriver.log
 
 scraps/*
+tools/*
 dcu*
