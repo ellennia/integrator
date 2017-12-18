@@ -11,14 +11,11 @@
     Todo:
         - Add JS to web page to automatically refresh the page every 10 seconds, or at least the data.
         - Add JS to web page to automatically update time rather than pre-setting it.
+        - Using Jinja template to merge current markdown code with home.html
         - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy).
-        - Make sound when transaction occurs.
-
-    Functions planned to be added to the home page:
-        - A big clock that is realtime.
-        - Instant translation of account balances to Euro and Yen using forex-python.
-        - Fetch weather data from somewhere.
-        - Fetch commodity prices, such as crude oil.
+        - Use OpenWeatherMap in weather.py to fetch weather information
+        - Fetch transactions. By extension, make sound when transaction occurs.
+        - Get gas prices somehow
 ''' 
 
 # Python standard library imports
@@ -85,10 +82,10 @@ def integrator():
 
         return '<title>Integrator</title><body><center>' + markdown_portion
     else:
-        page = '<h1>'
-        page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.'
-        page += 'Care to wait? :)'
-        page += '</h1>'
+        page = '<h1>\n'
+        page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.<br>\n'
+        page += 'Care to wait? :)<br>\n'
+        page += '</h1>\n'
         return page
 
 '''
@@ -109,10 +106,12 @@ def info_fetcher():
 
 
 # NECU stuff
-print('Contacting NECU and downloading account info...')
 start_time = time.time()
-login_info = (environ.get('NECU_Account'), environ.get('NECU_Password'))
-cache.add_frame(necu.fetch_accounts(browser, True, login_info))
+print('Contacting NECU and downloading account info...')
+
+frame = necu.fetch_accounts(browser, True, (environ.get('NECU_Account'), environ.get('NECU_Password')))
+cache.add_frame(frame)
+
 loaded_data = True
 end_time = time.time()
 print('Initialization NECU fetch completed. Time: {} seconds'.format(end_time - start_time))

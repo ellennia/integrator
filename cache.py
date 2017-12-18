@@ -2,6 +2,8 @@
 # -*- encoding: UTF-8 -*-
 
 '''
+    Contains bank/cu account related functionality.
+
     Structure
 
     Classes:
@@ -10,8 +12,10 @@
         - class Cache
 '''
 
+# Python standard library imports
 import time
 
+# Local (project) imports
 import necu
 
 '''
@@ -20,6 +24,10 @@ import necu
     to this Frame.
 '''
 class Frame():
+    '''
+        Creates an Account object for each tuple of account data,
+        and records the Unix time the frame was created.
+    '''
     def __init__(self, account_data):
         self.accounts = [Account(tpl) for tpl in account_data]
         self.time = time.time()
@@ -48,6 +56,18 @@ class Frame():
         print('     Total available money: ${}'.format(self.available()))
         print('     Total money: ${}'.format(self.total()))
         print('## End {} Accounts Information'.format(institution))
+
+    '''
+        Combines the info from two frames, two make one combined frame.
+        For instance, if one frame has three accounts (A, B, and C) and
+        another frame has accounts D and X, the fused Frame will have
+        accounts A, B, C, D, and X.
+    '''
+    def fuse(self, other_frame):
+        merged_accounts = []
+        merged_accounts.append(self.accounts)
+        merged_accounts.append(other_frame.accounts)
+        return Frame(merged_accounts)
 
 '''
     A single bank account. Either checking or savings.
@@ -106,9 +126,9 @@ class Cache():
     ''' Returns whether or not the user's total available balance
         has gone up or down since the previous frame.
 
-        -1 equals down
-        0 equals stayed the same
-        1 equals risen
+        -1 means 'balance has gone down'
+        0 means 'balance has stayed the same'
+        1 means 'balance has risen'
     '''
     def trend(self):
         if self.framecount <= 2:
