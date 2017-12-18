@@ -3,16 +3,16 @@
 
 '''
     Integrator : main.py 
-        A flask-based personal web app to integrate financial and other
-        relevant information. This file in particular is the main Python
-        script, from which the application starts. Primarily contains web
-        related code. Starts a server on http://localhost:80.
+        A flask-based 'one-page' personal web app to integrate financial and other
+        relevant information. This file in particular is the main Python script, 
+        from which the application starts. Primarily contains web related code. 
+        Starts a server on: http://localhost:80.
 
     Todo:
         - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy).
-        - Use OpenWeatherMap in weather.py to fetch weather information
-        - Fetch transactions. By extension, make sound when transaction occurs.
-        - Get gas prices somehow
+        - Use OpenWeatherMap in weather.py to fetch weather information.
+        - Fetch transactions from NECU. By extension, make sound when transaction occurs.
+        - Get gas prices somehow. AAA?
 ''' 
 
 # Python standard library imports
@@ -34,12 +34,15 @@ from cache import *
 from weather import *
 import necu
 
-print('Starting Integrator (Import successful) | OS user account name: \'{}\''.format(environ.get('USERNAME')))
+print('Starting Integrator [Imports successful] ; OS user account name: \'{}\''.format(environ.get('USERNAME')))
 app = Flask(__name__) # Initialize Flask
 
 # Main, global webdriver browser shared among files.
+print('Starting Webdriver/PhantomJS...')
 browser = webdriver.PhantomJS('tools/phantomjs.exe')
+print('Webdriver started.')
 cache = Cache(browser)
+print('Cache initialized.')
 
 loaded_data = False
 
@@ -62,7 +65,7 @@ def integrator():
         page = '' # NECU account information
         # Markdown
         for account in frame.accounts:
-            page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
+            page += '+ {}, ${}, ${}<br>\n'.format(account.name, account.available, account.total)
         page += 'Total: ${}<p>\n'.format(frame.total())
 
         page2 = '' # Forex/fixer.io data, and page load data
@@ -96,12 +99,16 @@ def info_fetcher():
     function = '' # Post or get
     label = '' # The piece of data being retrieved
 
-    if label == 'necu_data':
+    # Returns the newest Frame, jsonified
+    if label == 'necu':
         cache.ping()
         return cache.present().jsonify()
+
+    # Returns a JSON representation of the current weather from OpenWeatherMap.
     elif label == 'weather_data':
         wjson = get_weather('Dover, NH')
         return ''
+
     return 'Unknown label'
 
 

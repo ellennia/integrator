@@ -15,15 +15,24 @@ from selenium.webdriver.common.keys import Keys
 
 import cache
 
+debug = True
+
 def login_necu(browser, login_info):
+    global debug
+
     # Login in to my necu account with selenium/firefox, and go to the home page.
     necu_url = 'https://www.netteller.com/login2008/Authentication/Views/Login.aspx?returnUrl=%2fnecu'
     browser.get(necu_url)
     username_box = browser.find_element_by_name('ctl00$PageContent$Login1$IdTextBox')
     username_box.send_keys(login_info[0] + Keys.RETURN)
+    if debug: print('Typed username')
+
     browser.implicitly_wait(10)
+
     password_box = browser.find_element_by_name('ctl00$PageContent$Login1$PasswordTextBox')
     password_box.send_keys(login_info[1] + Keys.RETURN)
+    if debug: print('Typed password')
+
     browser.implicitly_wait(10)
  
     try:
@@ -58,14 +67,20 @@ def fetch_accounts(browser, do_login, login_info):
     return cache.Frame(accounts)
 
 def fetch_account_summary(browser):
+    global debug
+
     # Get to the Transactions page
     downloads = browser.find_element_by_id('ctl00_ctl27_retailSecondaryMenuAccountTransactionsMenuItemLinkButton')
     downloads.send_keys(Keys.RETURN)
     browser.implicitly_wait(10)
+
+    if debug: print('Typed username')
+
     # Go to the Transaction Downloads
     dl = browser.find_element_by_id('ctl00_ctl26_retailTransactionsTertiaryMenuDownloadMenuItemLinkButton')
     dl.send_keys(Keys.RETURN)
     browser.implicitly_wait(10)
+
 
     # Select the account that data will be retrieved for
     ac = browser.find_element_by_id('ctl00_PageContent_ctl00_Template_accountsDropDownList')
