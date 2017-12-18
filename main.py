@@ -45,6 +45,8 @@ loaded_data = False
 
 requests = 0
 
+alarms = []
+
 '''
     The main page of the web app.
 '''
