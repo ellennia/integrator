@@ -3,6 +3,7 @@
 
 '''
     'Bank driver'- fetches information from NECU accounts.
+    It's somewhat of a stand-in for the API that NECU doesn't have.
 '''
 
 from os import environ
@@ -45,7 +46,12 @@ def fetch_accounts(browser, do_login, login_info):
 
     # Scraping code, gets the balances of my checking and savings accounts from the home page.
     melements = browser.find_elements_by_class_name('POMoneyTableData')
-    money_amounts = [Decimal(melement.get_attribute('innerHTML')[1:]) for melement in melements]
+    money_amounts = []
+    for melement in melements:
+        if melement.get_attribute('innerHTML')[0] == '(':
+            money_amounts.append(Decimal('-' + melement.get_attribute('innerHTML')[2:-1]))
+        else:
+            money_amounts.append(Decimal(melement.get_attribute('innerHTML')[1:]))
     accounts = []
     accounts.append(('Savings', money_amounts[0], money_amounts[1]))
     accounts.append(('Checking', money_amounts[2], money_amounts[3]))

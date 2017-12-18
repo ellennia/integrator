@@ -3,7 +3,7 @@
 
 '''
     Integrator : main.py 
-        A flask-based personal web app to Integrate financial and other
+        A flask-based personal web app to integrate financial and other
         relevant information. This file in particular is the main Python
         script, from which the application starts. Primarily contains web
         related code. Starts a server on http://localhost:80.
@@ -41,16 +41,21 @@ print('Starting Integrator (Import successful) | OS user account name: \'{}\''.f
 app = Flask(__name__) # Initialize Flask
 
 # Main, global webdriver browser shared among files.
-browser = webdriver.PhantomJS('phantomjs.exe')
+browser = webdriver.PhantomJS('tools/phantomjs.exe')
 cache = Cache(browser)
 
 loaded_data = False
+
+requests = 0
 
 '''
     The main page of the web app.
 '''
 @app.route('/')
 def integrator():
+    global requests
+    requests += 1
+
     if loaded_data:
         cache.ping()
         frame = cache.present()
@@ -62,7 +67,6 @@ def integrator():
             page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
         page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
         page += 'Total present: ${}<p>\n'.format(frame.total())
-        page += '# Weather: {}\n'.format(get_weather('Dover, NH'))
         page += '# Time: {}\n'.format(str(datetime.now()))
         page += '# Ellen\'s Balance ${}\n'.format(frame.available())
 
@@ -72,15 +76,12 @@ def integrator():
         page += '#### Forex data (equivalents): '
         euro_conv = cr.convert('USD', 'EUR', frame.available())
         yen_conv = cr.convert('USD', 'JPY', frame.available())
-        page += 'Euro: {} - Yen: {}'.format(euro_conv, yen_conv)
+        page += 'Euro: {} - Yen: {}\n'.format(euro_conv, yen_conv)
+        page += '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
 
         markdown_portion = markdown.markdown(page)
-        # End markdown
 
-        #template = render_template('home.html')
-        #somehow combine template and markdown, don't recall how
-
-        return '<title>Integrator</title><body><center>' + markdown_portion
+        return render_template('home.html') + markdown_portion + render_template('end.html')
     else:
         page = '<h1>\n'
         page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.<br>\n'
