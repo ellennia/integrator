@@ -67,7 +67,6 @@ def integrator():
             page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
         page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
         page += 'Total present: ${}<p>\n'.format(frame.total())
-        page += '# Time: {}\n'.format(str(datetime.now()))
         page += '# Ellen\'s Balance ${}\n'.format(frame.available())
 
         # Forex
