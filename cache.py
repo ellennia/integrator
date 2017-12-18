@@ -12,7 +12,7 @@
 
 import time
 
-from necu import *
+import necu
 
 '''
     An entire persons online banking account.
@@ -73,8 +73,9 @@ class Account():
     the Internet.
 '''
 class Cache():
-    def __init__(self):
+    def __init__(self, browser):
         self.frames = []
+        self.browser = browser # This is neccessary to manipulate the NECU browser
 
     '''
         Adds a new frame to the cache.
@@ -139,7 +140,7 @@ class Cache():
         # If cache was marked expired, it loads website data again to renew the cache.
         if need_fetch:
             print('Cache expired, updating NECU data...')
-            self.add_frame(fetch_necu_accounts(False, login_info))
+            self.add_frame(necu.fetch_accounts(self.browser, False, ('is', 'ignored')))
             print('Frame count: {}'.format(len(self.frames)))
         else:
             print('No fetch needed: {} seconds elapsed since last fetch (60 needed)'.format(time.time() - self.last_update()))

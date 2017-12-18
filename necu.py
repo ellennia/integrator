@@ -12,12 +12,9 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
-from cache import *
+import cache
 
-browser = webdriver.Firefox()
-
-def login_necu(login_info):
-    global browser
+def login_necu(browser, login_info):
     # Login in to my necu account with selenium/firefox, and go to the home page.
     necu_url = 'https://www.netteller.com/login2008/Authentication/Views/Login.aspx?returnUrl=%2fnecu'
     browser.get(necu_url)
@@ -35,13 +32,14 @@ def login_necu(login_info):
 
 '''
     Log into, then scrape NECU's website for account information.
-    The username and password are retrieved from environmental variables.
+    The username and password are retrieved from environmental 
+    variables in main.py.
 
     Returns an Frame object with all the detected Accounts inside.
 '''
-def fetch_necu_accounts(do_login, login_info):
+def fetch_accounts(browser, do_login, login_info):
     if do_login:
-        login_necu(login_info)
+        login_necu(browser, login_info)
     else:
         browser.refresh()
 
@@ -51,11 +49,9 @@ def fetch_necu_accounts(do_login, login_info):
     accounts = []
     accounts.append(('Savings', money_amounts[0], money_amounts[1]))
     accounts.append(('Checking', money_amounts[2], money_amounts[3]))
-    return Frame(accounts)
+    return cache.Frame(accounts)
 
-def fetch_account_summary():
-    global browser
-
+def fetch_account_summary(browser):
     # Get to the Transactions page
     downloads = browser.find_element_by_id('ctl00_ctl27_retailSecondaryMenuAccountTransactionsMenuItemLinkButton')
     downloads.send_keys(Keys.RETURN)

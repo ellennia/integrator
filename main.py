@@ -9,18 +9,19 @@
         related code.
 
     Todo:
-        - Use PhantomJS instead of Firefox
+        - Use PhantomJS instead of Firefox.
         - Add JS to web page to automatically refresh the page every 10 seconds, or at least the data.
         - Use Markdown and prettify the HTML output.
-        - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy)
+        - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy).
 
     Functions planned to be added to the home page:
-        - A big clock that is realtime
-        - Instant translation of account balances to Euro and Yen using forex-python
-        - Fetch weather data from somewhere
-        - Fetch commodity prices, such as crude oil
+        - A big clock that is realtime.
+        - Instant translation of account balances to Euro and Yen using forex-python.
+        - Fetch weather data from somewhere.
+        - Fetch commodity prices, such as crude oil.
 ''' 
 
+# Python standard library imports
 from os import environ
 from decimal import *
 import time
@@ -28,14 +29,20 @@ from datetime import datetime
 import sqlite3
 import markdown
 
+# Third party libraries imports
 from flask import Flask, Markup, render_template
+from selenium import webdriver
 
-from necu import *
+# Local (project) imports
 from cache import *
+import necu
 
 print('Starting Integrator (Import successful) | OS user account name: \'{}\''.format(environ.get('USERNAME')))
 app = Flask(__name__) # Initialize Flask
-cache = Cache()
+
+# Main, global webdriver browser shared among files.
+browser = webdriver.Firefox()
+cache = Cache(browser)
 
 '''
     The main page of the web app.
@@ -84,7 +91,7 @@ def info_fetcher():
 print('Contacting NECU and downloading account info...')
 start_time = time.time()
 login_info = (environ.get('NECU_Account'), environ.get('NECU_Password'))
-cache.add_frame(fetch_necu_accounts(True, login_info))
+cache.add_frame(necu.fetch_accounts(browser, True, login_info))
 end_time = time.time()
 print('Initialization NECU fetch completed. Time: {} seconds'.format(end_time - start_time))
 print('Website accessible now.')
