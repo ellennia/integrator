@@ -32,7 +32,7 @@ import markdown
 # Third party libraries imports
 from flask import Flask, Markup, render_template
 from selenium import webdriver
-from forex_python.converter import CurrencyRates # From fixer.io, updated every day at 3PM
+from forex_python.converter import CurrencyRates
 
 # Local (project) imports
 from cache import *
@@ -63,14 +63,10 @@ def integrator():
     page += '# Time: {}\n'.format(str(datetime.now()))
     page += '# Ellen\'s Balance ${}\n'.format(frame.available())
 
-    # Forex
-    # currencies = [('Euro', 'EUR'), ('Yen', 'JPY')]
     cr = CurrencyRates(force_decimal = True)
-    page += '#### Forex data (equivalents): '
     euro_conv = cr.convert('USD', 'EUR', frame.available())
     yen_conv = cr.convert('USD', 'JPY', frame.available())
-    page += 'Euro: {} - Yen: {}'.format(euro_conv, yen_conv)
-
+    page += '#### Forex data (equivalents): Euro: {} - Yen: {}'.format(euro_conv, yen_conv)
     markdown_portion = markdown.markdown(page)
     # End markdown
 
