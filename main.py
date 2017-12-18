@@ -6,12 +6,13 @@
         A flask-based personal web app to Integrate financial and other
         relevant information. This file in particular is the main Python
         script, from which the application starts. Primarily contains web
-        related code.
+        related code. Starts a server on http://localhost:80.
 
     Todo:
         - Add JS to web page to automatically refresh the page every 10 seconds, or at least the data.
-        - Use Markdown and prettify the HTML output.
+        - Add JS to web page to automatically update time rather than pre-setting it.
         - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy).
+        - Make sound when transaction occurs.
 
     Functions planned to be added to the home page:
         - A big clock that is realtime.
@@ -27,6 +28,7 @@ import time
 from datetime import datetime
 import sqlite3
 import markdown
+import json
 
 # Third party libraries imports
 from flask import Flask, Markup, render_template
@@ -35,6 +37,7 @@ from forex_python.converter import CurrencyRates # From fixer.io, updated every 
 
 # Local (project) imports
 from cache import *
+from weather import *
 import necu
 
 print('Starting Integrator (Import successful) | OS user account name: \'{}\''.format(environ.get('USERNAME')))
@@ -44,39 +47,49 @@ app = Flask(__name__) # Initialize Flask
 browser = webdriver.PhantomJS('phantomjs.exe')
 cache = Cache(browser)
 
+loaded_data = False
+
 '''
     The main page of the web app.
 '''
 @app.route('/')
 def integrator():
-    cache.ping()
-    frame = cache.present()
+    if loaded_data:
+        cache.ping()
+        frame = cache.present()
 
-    # Markdown
-    page = '### Integrator Webapp\n'
-    page += '## Ellen\'s NECU Account Details\n'
-    for account in frame.accounts:
-        page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
-    page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
-    page += 'Total present: ${}<p>\n'.format(frame.total())
-    page += '# Time: {}\n'.format(str(datetime.now()))
-    page += '# Ellen\'s Balance ${}\n'.format(frame.available())
+        # Markdown
+        page = '### Integrator Webapp\n'
+        page += '## Ellen\'s NECU Account Details\n'
+        for account in frame.accounts:
+            page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
+        page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
+        page += 'Total present: ${}<p>\n'.format(frame.total())
+        page += '# Weather: {}\n'.format(get_weather('Dover, NH'))
+        page += '# Time: {}\n'.format(str(datetime.now()))
+        page += '# Ellen\'s Balance ${}\n'.format(frame.available())
 
-    # Forex
-    # currencies = [('Euro', 'EUR'), ('Yen', 'JPY')]
-    cr = CurrencyRates(force_decimal = True)
-    page += '#### Forex data (equivalents): '
-    euro_conv = cr.convert('USD', 'EUR', frame.available())
-    yen_conv = cr.convert('USD', 'JPY', frame.available())
-    page += 'Euro: {} - Yen: {}'.format(euro_conv, yen_conv)
+        # Forex
+        # currencies = [('Euro', 'EUR'), ('Yen', 'JPY')]
+        cr = CurrencyRates(force_decimal = True)
+        page += '#### Forex data (equivalents): '
+        euro_conv = cr.convert('USD', 'EUR', frame.available())
+        yen_conv = cr.convert('USD', 'JPY', frame.available())
+        page += 'Euro: {} - Yen: {}'.format(euro_conv, yen_conv)
 
-    markdown_portion = markdown.markdown(page)
-    # End markdown
+        markdown_portion = markdown.markdown(page)
+        # End markdown
 
-    #template = render_template('home.html')
-    #somehow combine template and markdown, don't recall how
+        #template = render_template('home.html')
+        #somehow combine template and markdown, don't recall how
 
-    return '<title>Integrator</title><body><center>' + markdown_portion
+        return '<title>Integrator</title><body><center>' + markdown_portion
+    else:
+        page = '<h1>'
+        page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.'
+        page += 'Care to wait? :)'
+        page += '</h1>'
+        return page
 
 '''
     Data retrieve and submit function.
@@ -90,16 +103,17 @@ def info_fetcher():
         cache.ping()
         return cache.present().jsonify()
     elif label == 'weather_data':
-        pass
-        #weather.ping()
-        #return weather.jsonify()
+        wjson = get_weather('Dover, NH')
+        return ''
     return 'Unknown label'
+
 
 # NECU stuff
 print('Contacting NECU and downloading account info...')
 start_time = time.time()
 login_info = (environ.get('NECU_Account'), environ.get('NECU_Password'))
 cache.add_frame(necu.fetch_accounts(browser, True, login_info))
+loaded_data = True
 end_time = time.time()
 print('Initialization NECU fetch completed. Time: {} seconds'.format(end_time - start_time))
 print('Website accessible now.')
@@ -107,3 +121,4 @@ cache.present().summary('NECU') # Prints out account info to the console.
 # End NECU stuff
 
 app.run(debug=False, host='0.0.0.0', port=80)
+print('Website running.')

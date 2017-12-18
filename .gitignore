@@ -1,6 +1,9 @@
 *~
+*.pyc
+
+phantomjs.*
+ghostdriver.log
 geckodriver.log
+
 scraps/*
 dcu*
-*.pyc
-phantomjs.*
