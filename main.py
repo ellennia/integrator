@@ -9,9 +9,6 @@
         related code. Starts a server on http://localhost:80.
 
     Todo:
-        - Add JS to web page to automatically refresh the page every 10 seconds, or at least the data.
-        - Add JS to web page to automatically update time rather than pre-setting it.
-        - Using Jinja template to merge current markdown code with home.html
         - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy).
         - Use OpenWeatherMap in weather.py to fetch weather information
         - Fetch transactions. By extension, make sound when transaction occurs.
@@ -66,25 +63,21 @@ def integrator():
             page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
         page += 'Total: ${}<p>\n'.format(frame.total())
 
-        page2 = '' # Forex data, and page load data
+        page2 = '' # Forex/fixer.io data, and page load data
         cr = CurrencyRates(force_decimal = True)
-        page2 += '#### Forex data (equivalents):\n'
         euro_conv = cr.convert('USD', 'EUR', frame.available())
         yen_conv = cr.convert('USD', 'JPY', frame.available())
         page2 += '+ Euro: {}\n + Yen: {}\n'.format(euro_conv, yen_conv)
 
-        # Should go in dataset_3, not related to forex
-        page3 = '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
-
-        dataset_1 = Markup(markdown.markdown(page))
-        dataset_2 = Markup(markdown.markdown(page2))
-        dataset_3 = Markup(markdown.markdown(page3))
+        dataset_1_necu = Markup(markdown.markdown(page))
+        dataset_2_forex = Markup(markdown.markdown(page2))
         return render_template('home.html', 
                 user = 'Ellen', 
                 balance = str(frame.available()),
-                data = dataset_1,
-                data2 = dataset_2,
-                data3 = dataset_3
+                data = dataset_1_necu,
+                forex_data = dataset_2_forex,
+                rcount = str(requests),
+                fcount = str(cache.framecount())
                 )
     else:
         page = '<h1>\n'
