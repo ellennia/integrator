@@ -78,9 +78,8 @@ def integrator():
         page += 'Euro: {} - Yen: {}\n'.format(euro_conv, yen_conv)
         page += '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
 
-        markdown_portion = markdown.markdown(page)
-
-        return render_template('home.html') + markdown_portion + render_template('end.html')
+        markdown_portion = Markup(markdown.markdown(page))
+        return render_template('home.html', data = markdown_portion)
     else:
         page = '<h1>\n'
         page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.<br>\n'

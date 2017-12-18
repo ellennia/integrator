@@ -5,17 +5,18 @@
 				window.location.reload(1);
 			}, 10 * 1000);
 
-			clocky = function() {
-				var data = new Date();
-				var time = data.toLocaleTimeString()
+			clock_updater = function() {
+				var time = new Date().toLocaleTimeString()
 				document.getElementById('clock').innerHTML = '<h1>' + time + '</h1>'
-				console.log('doki doki')
-				setTimeout(clocky, 1000);
-			}
-
-			setTimeout(clocky, 1000);
-				
+				setTimeout(clock_updater, 1000);
+			} 
+			setTimeout(clock_updater, 1000);
 		</script>
 	</head>
 	<body>
 		<center>
+			{{ data }}
+			<div id = 'clock'><div>
+		</center>
+	</body>
+</html>
