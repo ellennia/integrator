@@ -64,26 +64,27 @@ def integrator():
         # Markdown
         for account in frame.accounts:
             page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
-        page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
-        page += 'Total present: ${}<p>\n'.format(frame.total())
+        page += 'Total: ${}<p>\n'.format(frame.total())
 
         page2 = '' # Forex data, and page load data
         cr = CurrencyRates(force_decimal = True)
-        page2 += '#### Forex data (equivalents): '
+        page2 += '#### Forex data (equivalents):\n'
         euro_conv = cr.convert('USD', 'EUR', frame.available())
         yen_conv = cr.convert('USD', 'JPY', frame.available())
-        page2 += 'Euro: {} - Yen: {}\n'.format(euro_conv, yen_conv)
+        page2 += '+ Euro: {}\n + Yen: {}\n'.format(euro_conv, yen_conv)
 
         # Should go in dataset_3, not related to forex
-        page2 += '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
+        page3 = '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
 
         dataset_1 = Markup(markdown.markdown(page))
         dataset_2 = Markup(markdown.markdown(page2))
+        dataset_3 = Markup(markdown.markdown(page3))
         return render_template('home.html', 
                 user = 'Ellen', 
                 balance = str(frame.available()),
                 data = dataset_1,
-                data2 = dataset_2
+                data2 = dataset_2,
+                data3 = dataset_3
                 )
     else:
         page = '<h1>\n'
