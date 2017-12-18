@@ -9,7 +9,6 @@
         related code.
 
     Todo:
-        - Use PhantomJS instead of Firefox.
         - Add JS to web page to automatically refresh the page every 10 seconds, or at least the data.
         - Use Markdown and prettify the HTML output.
         - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy).
@@ -42,7 +41,7 @@ print('Starting Integrator (Import successful) | OS user account name: \'{}\''.f
 app = Flask(__name__) # Initialize Flask
 
 # Main, global webdriver browser shared among files.
-browser = webdriver.Firefox()
+browser = webdriver.PhantomJS('phantomjs.exe')
 cache = Cache(browser)
 
 '''

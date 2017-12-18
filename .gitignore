@@ -3,3 +3,4 @@ geckodriver.log
 scraps/*
 dcu*
 *.pyc
+phantomjs.*
