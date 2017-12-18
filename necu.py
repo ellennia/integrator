@@ -15,8 +15,8 @@ from selenium.webdriver.common.keys import Keys
     to this AccountSummarizer.
 '''
 class AccountSummarizer():
-    def __init__(self, account_tuples):
-        self.accounts = [Account(tpl) for tpl in account_tuples]
+    def __init__(self, account_data):
+        self.accounts = [Account(tpl) for tpl in account_data]
         self.time = time.time()
 
     def count(self):
@@ -32,14 +32,18 @@ class AccountSummarizer():
     A single bank account. Either checking or savings.
 '''
 class Account():
-    def __init__(self, tpl):
-        self.data = tpl
-        self.name = tpl[0]
-        self.available = tpl[1]
-        self.total = tpl[2]
+    def __init__(self, data):
+        self.data = data
+        self.name = data[0]
+        self.available = data[1]
+        self.total = data[2]
+        self.transactions = []
+        self.fetched_transactions = False
 
-    def recent_transactions():
-        pass
+    def recent_transactions(self):
+        if self.fetched_transactions == False:
+            pass
+        return self.transactions
 
 browser = webdriver.Firefox()
 
@@ -83,24 +87,29 @@ def fetch_necu_accounts(do_login, login_info):
 def fetch_account_summary():
     global browser
 
-    # Get to the downloads page
+    # Get to the Transactions page
     downloads = browser.find_element_by_id('ctl00_ctl27_retailSecondaryMenuAccountTransactionsMenuItemLinkButton')
     downloads.send_keys(Keys.RETURN)
     browser.implicitly_wait(10)
+    # Go to the Transaction Downloads
     dl = browser.find_element_by_id('ctl00_ctl26_retailTransactionsTertiaryMenuDownloadMenuItemLinkButton')
     dl.send_keys(Keys.RETURN)
     browser.implicitly_wait(10)
 
+    # Select the account that data will be retrieved for
     ac = browser.find_element_by_id('ctl00_PageContent_ctl00_Template_accountsDropDownList')
     ac.send_keys(Keys.DOWN)
 
+    # Select the date range to pull from (Since last statement)
     rng = browser.find_element_by_id('ctl00_PageContent_ctl00_Template_rangeDropDownList')
     rng.send_keys(Keys.DOWN)
 
+    # Select 'TXT' as the selected format
     form = browser.find_element_by_id('ctl00_PageContent_ctl00_Template_formatDropDownList')
     for i in range(0, 7):
         form.send_keys(Keys.DOWN)
 
+    # Press enter on the download button
     submit_button = browser.find_element_by_id('ctl00_PageContent_ctl00_Template_submitButton')
     submit_button.send_keys(Keys.RETURN)
 
