@@ -60,17 +60,12 @@ def integrator():
         cache.ping()
         frame = cache.present()
 
+        page = ''
         # Markdown
-        page = '### Integrator Webapp\n'
-        page += '## Ellen\'s NECU Account Details\n'
         for account in frame.accounts:
             page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
         page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
         page += 'Total present: ${}<p>\n'.format(frame.total())
-        page += '# Ellen\'s Balance ${}\n'.format(frame.available())
-
-        # Forex
-        # currencies = [('Euro', 'EUR'), ('Yen', 'JPY')]
         cr = CurrencyRates(force_decimal = True)
         page += '#### Forex data (equivalents): '
         euro_conv = cr.convert('USD', 'EUR', frame.available())
@@ -79,7 +74,10 @@ def integrator():
         page += '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
 
         markdown_portion = Markup(markdown.markdown(page))
-        return render_template('home.html', data = markdown_portion)
+        return render_template('home.html', 
+                user = 'Ellen', 
+                balance = str(frame.available()),
+                data = markdown_portion)
     else:
         page = '<h1>\n'
         page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.<br>\n'

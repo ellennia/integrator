@@ -5,6 +5,11 @@
 				window.location.reload(1);
 			}, 10 * 1000);
 
+			balance_fetcher = function() {
+				setTimeout(balance_fetcher, 10000)
+			}
+			setTimeout(balance_fetcher, 10000)
+
 			clock_updater = function() {
 				var time = new Date().toLocaleTimeString()
 				document.getElementById('clock').innerHTML = '<h1>' + time + '</h1>'
@@ -15,7 +20,10 @@
 	</head>
 	<body>
 		<center>
+			<h3>Integrator Alpha</h3>
+			<h2>{{ user }}'s NECU Account Details</h2>
 			{{ data }}
+			<div id = 'balance'><h1>Balance: {{ balance }}</h1></div>
 			<div id = 'clock'><div>
 		</center>
 	</body>
