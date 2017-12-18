@@ -34,7 +34,7 @@ def login_necu(login_info):
     Log into, then scrape NECU's website for account information.
     The username and password are retrieved from environmental variables.
 
-    Returns an AccountSummarizer object with all the detected Accounts inside.
+    Returns an Frame object with all the detected Accounts inside.
 '''
 def fetch_necu_accounts(do_login, login_info):
     if do_login:
@@ -48,7 +48,7 @@ def fetch_necu_accounts(do_login, login_info):
     accounts = []
     accounts.append(('Savings', money_amounts[0], money_amounts[1]))
     accounts.append(('Checking', money_amounts[2], money_amounts[3]))
-    return AccountSummarizer(accounts)
+    return Frame(accounts)
 
 def fetch_account_summary():
     global browser

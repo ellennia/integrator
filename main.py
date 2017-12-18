@@ -1,18 +1,17 @@
 #!/usr/bin/python
 # -*- encoding: UTF-8 -*-
+
 '''
-    Integrator - 
+    Integrator : main.py - 
         A flask-based personal web app to Integrate financial and other
-        relevant information.
+        relevant information. This file in particular is the main Python
+        script, from which the application starts.
 
     Todo:
         - Use PhantomJS instead of Firefox
         - Add JS to web page to automatically refresh the page every 10 seconds, or at least the data.
         - Use Markdown and prettify the HTML output.
         - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy)
-
-    Creates a web page that will auto-update to get bank information.
-    It will then display that data meaningfully.
 
     Functions planned to be added to the home page:
         - A big clock that is realtime
@@ -27,25 +26,28 @@ import time
 import sqlite3
 import markdown
 
-from flask import Flask, Markup
+from flask import Flask, Markup, render_template
 
 from necu import *
 from cache import *
 
-print('Imports successful.')
+print('Integrator: Imports successful.')
 
 '''
-    Print out a summary of a person's NECU account information
-    out to the console.
+    Prints a summary of a person's NECU account information
+    from one account frame to the output stream.
 '''
-def cli_account_summary(summarizer):
-    print('## NECU Accounts Information')
-    print('      (' + str(summarizer.count()) + ') accounts found')
-    for account in summarizer.accounts:
-        print('         {} account: Available ${} | Total: ${}'.format(account.name, account.available, account.total))
-    print('     Total available money: ${}'.format(summarizer.available()))
-    print('     Total money: ${}'.format(summarizer.total()))
-    print('## End NECU Accounts Information')
+def text_accsummary(institution, frame):
+    print('## {} Accounts Information'.format(institituion)
+    print('      (' + str(frame.count()) + ') accounts found')
+
+    for account in frame.accounts:
+        print('         {} account: Available ${} | Total: ${}'
+                .format(account.name, account.available, account.total))
+
+    print('     Total available money: ${}'.format(frame.available()))
+    print('     Total money: ${}'.format(frame.total()))
+    print('## End {} Accounts Information'.format(institituion))
 
 print('Starting Integrator | OS user account name: \'{}\''.format(environ.get('USERNAME')))
 app = Flask(__name__) # Initialize Flask
@@ -98,5 +100,5 @@ print('Contacting NECU and downloading account info...')
 login_info = (environ.get('NECU_Account'), environ.get('NECU_Password'))
 cache.add_frame(fetch_necu_accounts(True, login_info))
 print('Startup NECU fetch completed.')
-cli_account_summary(cache.present()) # Prints out info to the console
+text_accsummary('NECU', cache.present()) # Prints out info to the console
 app.run(debug=False, host='0.0.0.0', port=80)

@@ -5,9 +5,9 @@ from necu import *
 '''
     An entire person's online banking account.
     Has more 'accounts' (savings/checking etc.) can be attached
-    to this AccountSummarizer.
+    to this Frame.
 '''
-class AccountSummarizer():
+class Frame():
     def __init__(self, account_data):
         self.accounts = [Account(tpl) for tpl in account_data]
         self.time = time.time()
@@ -39,7 +39,7 @@ class Account():
         return self.transactions
 
 '''
-    Store a collection of AccountSummary 'frames'.
+    Store a collection of Frames.
     This is so the program can look back at account history every time.
     Should add a new frame roughly every minute when connected to
     the Internet.
