@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- encoding: UTF-8 -*-
+
 '''
     Structure
 
@@ -139,5 +142,5 @@ class Cache():
             self.add_frame(fetch_necu_accounts(False, login_info))
             print('Frame count: {}'.format(len(self.frames)))
         else:
-            print('No fetch needed: {} {}'.format(self.last_update(), time.time()))
+            print('No fetch needed: {} seconds elapsed since last fetch (60 needed)'.format(time.time() - self.last_update()))
 

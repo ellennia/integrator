@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- encoding: UTF-8 -*-
+
 '''
     'Bank driver'- fetches information from NECU accounts.
 '''
