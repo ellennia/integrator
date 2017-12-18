@@ -66,18 +66,23 @@ def integrator():
             page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
         page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
         page += 'Total present: ${}<p>\n'.format(frame.total())
+
+        page2 = ''
         cr = CurrencyRates(force_decimal = True)
-        page += '#### Forex data (equivalents): '
+        page2 += '#### Forex data (equivalents): '
         euro_conv = cr.convert('USD', 'EUR', frame.available())
         yen_conv = cr.convert('USD', 'JPY', frame.available())
-        page += 'Euro: {} - Yen: {}\n'.format(euro_conv, yen_conv)
-        page += '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
+        page2 += 'Euro: {} - Yen: {}\n'.format(euro_conv, yen_conv)
+        page2 += '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
 
-        markdown_portion = Markup(markdown.markdown(page))
+        dataset_1 = Markup(markdown.markdown(page))
+        dataset_2 = Markup(markdown.markdown(page2))
         return render_template('home.html', 
                 user = 'Ellen', 
                 balance = str(frame.available()),
-                data = markdown_portion)
+                data = dataset_1,
+                data2 = dataset_2
+                )
     else:
         page = '<h1>\n'
         page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.<br>\n'
