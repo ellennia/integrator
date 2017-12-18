@@ -5,7 +5,8 @@
     Integrator : main.py - 
         A flask-based personal web app to Integrate financial and other
         relevant information. This file in particular is the main Python
-        script, from which the application starts.
+        script, from which the application starts. Primarily contains web
+        related code.
 
     Todo:
         - Use PhantomJS instead of Firefox
@@ -31,25 +32,7 @@ from flask import Flask, Markup, render_template
 from necu import *
 from cache import *
 
-print('Integrator: Imports successful.')
-
-'''
-    Prints a summary of a person's NECU account information
-    from one account frame to the output stream.
-'''
-def text_accsummary(institution, frame):
-    print('## {} Accounts Information'.format(institituion)
-    print('      (' + str(frame.count()) + ') accounts found')
-
-    for account in frame.accounts:
-        print('         {} account: Available ${} | Total: ${}'
-                .format(account.name, account.available, account.total))
-
-    print('     Total available money: ${}'.format(frame.available()))
-    print('     Total money: ${}'.format(frame.total()))
-    print('## End {} Accounts Information'.format(institituion))
-
-print('Starting Integrator | OS user account name: \'{}\''.format(environ.get('USERNAME')))
+print('Starting Integrator (Import successful) | OS user account name: \'{}\''.format(environ.get('USERNAME')))
 app = Flask(__name__) # Initialize Flask
 cache = Cache()
 
@@ -70,7 +53,7 @@ def integrator():
     page += 'Total present: ${}<p>\n'.format(frame.total())
     page += '# Time: {}\n'.format(time.time())
     page += '# Ellen\'s Balance ${}\n'.format(frame.available())
-    page += '#### Forex data (equivalents): {} - Î {}'.format('0', '0')
+    page += '#### Forex data (equivalents): Euro: {} - Yen: {}'.format('0', '0')
     markdown_portion = markdown.markdown(page)
     # End markdown
 
@@ -96,9 +79,11 @@ def info_fetcher():
         #return weather.jsonify()
     return 'Unknown label'
 
+# NECU stuff
 print('Contacting NECU and downloading account info...')
 login_info = (environ.get('NECU_Account'), environ.get('NECU_Password'))
 cache.add_frame(fetch_necu_accounts(True, login_info))
 print('Startup NECU fetch completed.')
-text_accsummary('NECU', cache.present()) # Prints out info to the console
+cache.present().summary('NECU') # Prints out account info to the console.
+
 app.run(debug=False, host='0.0.0.0', port=80)

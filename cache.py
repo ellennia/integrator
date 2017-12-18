@@ -1,10 +1,19 @@
+'''
+    Structure
+
+    Classes:
+        - class Frame
+        - class Account
+        - class Cache
+'''
+
 import time
 
 from necu import *
 
 '''
-    An entire person's online banking account.
-    Has more 'accounts' (savings/checking etc.) can be attached
+    An entire persons online banking account.
+    Has more accounts (savings/checking etc.) can be attached
     to this Frame.
 '''
 class Frame():
@@ -20,6 +29,22 @@ class Frame():
 
     def total(self):
         return sum([acc.total for acc in self.accounts])
+
+    '''
+        Prints a summary of a person's NECU account information
+        from one account frame to the output stream.
+    '''
+    def summary(self, institution):
+        print('## {} Accounts Information'.format(institution))
+        print('      (' + str(self.count()) + ') accounts found')
+
+        for account in self.accounts:
+            print('         {} account: Available ${} | Total: ${}'
+                    .format(account.name, account.available, account.total))
+
+        print('     Total available money: ${}'.format(self.available()))
+        print('     Total money: ${}'.format(self.total()))
+        print('## End {} Accounts Information'.format(institution))
 
 '''
     A single bank account. Either checking or savings.
@@ -85,10 +110,10 @@ class Cache():
         if self.framecount <= 2:
             return 0
         else:
-            prevtwo = self.frames[len(self.frames - 2)]
-            prev = self.present()
+            prev = self.frames[len(self.frames - 2)]
+            curr = self.present()
 
-            difference = prev.available() - prevtwo.available()
+            difference = curr.available() - prev.available()
             if difference == 0: return 0
             else: return difference / abs(difference)
 
