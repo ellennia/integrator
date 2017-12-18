@@ -60,19 +60,21 @@ def integrator():
         cache.ping()
         frame = cache.present()
 
-        page = ''
+        page = '' # NECU account information
         # Markdown
         for account in frame.accounts:
             page += '+ {}: ${} available, ${} present<br>\n'.format(account.name, account.available, account.total)
         page += 'Total available: <b>${}</b><br>\n'.format(frame.available())
         page += 'Total present: ${}<p>\n'.format(frame.total())
 
-        page2 = ''
+        page2 = '' # Forex data, and page load data
         cr = CurrencyRates(force_decimal = True)
         page2 += '#### Forex data (equivalents): '
         euro_conv = cr.convert('USD', 'EUR', frame.available())
         yen_conv = cr.convert('USD', 'JPY', frame.available())
         page2 += 'Euro: {} - Yen: {}\n'.format(euro_conv, yen_conv)
+
+        # Should go in dataset_3, not related to forex
         page2 += '##### Total requests: {} | Frame: {}\n'.format(requests, cache.framecount())
 
         dataset_1 = Markup(markdown.markdown(page))
