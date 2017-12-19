@@ -32,4 +32,4 @@ in a git repository. These are files that I've had pop into existence here
 that I would really prefer wouldn't, for one reasons or another.
 
 + README.md
-*squits*
+*squints*

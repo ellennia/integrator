@@ -1,6 +1,8 @@
 *~
 *.pyc
 
+main.db
+necu.db
 phantomjs.*
 ghostdriver.log
 geckodriver.log

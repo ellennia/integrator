@@ -16,10 +16,13 @@
 import time
 
 # Third-party library imports
-import sqlalchemy
+from sqlalchemy import *
+from sqlalchemy.ext.declarative import *
 
 # Local (project) imports
 import necu
+
+Base = declarative_base()
 
 '''
     An entire persons online banking account.
@@ -53,6 +56,8 @@ import necu
     application to serve a page instantly after starting.
 '''
 class Frame():
+    __tablename__  = 'frame'
+
     '''
         Creates an Account object for each tuple of account data,
         and records the Unix time the frame was created.
@@ -60,6 +65,7 @@ class Frame():
     def __init__(self, account_data):
         self.accounts = [Account(tpl) for tpl in account_data]
         self.time = time.time()
+        self.dummy = Column(String(250))
 
     def count(self):
         return len(self.accounts)

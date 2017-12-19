@@ -30,6 +30,8 @@ import json
 # Third party libraries imports
 from flask import Flask, Markup, render_template
 from selenium import webdriver
+from sqlalchemy import *
+from sqlalchemy.orm import sessionmaker
 from forex_python.converter import CurrencyRates # From fixer.io, updated every day at 3PM
 
 # Local (project) imports
@@ -41,6 +43,11 @@ import necu
 
 print('Starting Integrator [Imports successful] ; OS user account name: \'{}\''.format(environ.get('USERNAME')))
 app = Flask(__name__) # Initialize Flask
+
+engine = create_engine('sqlite:///necu.db')
+Base.metadata.bind = engine
+DBSession = sessionmaker(bind=engine)
+session = DBSession()
 
 loaded_data = False
 requests = 0
@@ -129,7 +136,13 @@ def nescrape():
     start_time = time.time()
     print('Contacting NECU and downloading account info...')
 
-    frame = necu.fetch_accounts(browser, True, (environ.get('NECU_Account'), environ.get('NECU_Password')))
+    frame = necu.fetch_accounts(
+            browser, 
+            True, 
+            (environ.get('NECU_Account'), environ.get('NECU_Password'))
+            )
+    session.add(frame)
+    session.commit()
     cache.add_frame(frame)
 
     loaded_data = True
