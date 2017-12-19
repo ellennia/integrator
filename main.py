@@ -10,21 +10,21 @@
 
     Todo:
         - 1. Store account data in a sqlite3 database so reloading script doesn't necessarily require fetch. (SQLAlchemy?).
-        - 2. Website should start immediately after program does- other code runs in background thread. Dummy or SQL data is displayed.
         - Weather: Use OpenWeatherMap in weather.py to fetch weather information. Has very simple Python API
-        - Transactions: Fetch transactions from NECU. By extension, make sound when transaction occurs. Need to have PhantomJS download file
+        - Transactions: Fetch transactions from NECU. By extension, make sound when transaction occurs. Need to have PhantomJS download the file
         - Gas prices: Get gas prices somehow. AAA?
         - Etc: Rely more on /api
+        - Scrape grocery data from Hannaford website
 ''' 
 
 # Python standard library imports
-from os import environ # Used to fetch personal information that shouldn't be hardcoded into this code.
 from decimal import *
-import time
 from datetime import datetime
-import sqlite3 # Actually not currently used here at all. Will remove if it is not in the future.
+from os import environ # Used to fetch personal information that shouldn't be hardcoded into this code.
 import markdown # Used to format some of the home page.
 import thread # Threads used to run website scrape code in parallel with web frontend.
+import sqlite3 # Actually not currently used here at all. Will remove if it is not in the future.
+import time
 import json
 
 # Third party libraries imports
@@ -36,6 +36,7 @@ from forex_python.converter import CurrencyRates # From fixer.io, updated every 
 from cache import *
 from weather import *
 from alarm import *
+from work import *
 import necu
 
 print('Starting Integrator [Imports successful] ; OS user account name: \'{}\''.format(environ.get('USERNAME')))
@@ -54,9 +55,8 @@ def integrator():
     global loaded_data
     global cache
 
-    requests += 1
-
     if loaded_data:
+        requests += 1
         cache.ping()
         frame = cache.present()
         account_name = 'Ellen'
@@ -116,8 +116,6 @@ def nescrape():
     global loaded_data
     global cache
 
-    print('Web server online.')
-
     print('Starting Webdriver/PhantomJS...')
     browser = webdriver.PhantomJS('tools/phantomjs.exe')
     print('Webdriver started.')
@@ -140,4 +138,5 @@ def nescrape():
     cache.present().summary('NECU') # Prints out account info to the console.
 thread.start_new_thread(nescrape,())
 
+print('Web server starting.')
 app.run(debug=False, host='0.0.0.0', port=80)
