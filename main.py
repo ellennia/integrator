@@ -18,12 +18,13 @@
 ''' 
 
 # Python standard library imports
-from os import environ
+from os import environ # Used to fetch personal information that shouldn't be hardcoded into this code.
 from decimal import *
 import time
 from datetime import datetime
-import sqlite3
-import markdown
+import sqlite3 # Actually not currently used here at all. Will remove if it is not in the future.
+import markdown # Used to format some of the home page.
+import thread # Threads used to run website scrape code in parallel with web frontend.
 import json
 
 # Third party libraries imports
@@ -39,11 +40,6 @@ import necu
 
 print('Starting Integrator [Imports successful] ; OS user account name: \'{}\''.format(environ.get('USERNAME')))
 app = Flask(__name__) # Initialize Flask
-print('Starting Webdriver/PhantomJS...')
-browser = webdriver.PhantomJS('tools/phantomjs.exe')
-print('Webdriver started.')
-cache = Cache(browser)
-print('Cache initialized.')
 
 loaded_data = False
 requests = 0
@@ -55,11 +51,15 @@ alarms = []
 @app.route('/')
 def integrator():
     global requests
+    global loaded_data
+    global cache
+
     requests += 1
 
     if loaded_data:
         cache.ping()
         frame = cache.present()
+        account_name = 'Ellen'
 
         page = '' # NECU account information
         # Markdown
@@ -76,7 +76,7 @@ def integrator():
         dataset_1_necu = Markup(markdown.markdown(page))
         dataset_2_forex = Markup(markdown.markdown(page2))
         return render_template('home.html', 
-                user = 'Ellen', 
+                user = account_name, 
                 balance = str(frame.available()),
                 data = dataset_1_necu,
                 forex_data = dataset_2_forex,
@@ -84,11 +84,7 @@ def integrator():
                 fcount = str(cache.framecount())
                 )
     else:
-        page = '<html><center><h1>\n'
-        page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.<br>\n'
-        page += 'Care to wait? :)<br>\n'
-        page += '</h1></center></html>\n'
-        return page
+        return render_template('cold.html')
 
 '''
     Data retrieve and submit function.
@@ -97,32 +93,51 @@ def integrator():
 def info_fetcher():
     function = '' # Post or get
     label = '' # The piece of data being retrieved
+    internal_api(label)
 
+
+def internal_api(query):
     # Returns the newest Frame, jsonified
-    if label == 'necu':
+    if query == 'necu':
         cache.ping()
         return cache.present().jsonify()
 
     # Returns a JSON representation of the current weather from OpenWeatherMap.
-    elif label == 'weather_data':
-        wjson = get_weather('Dover, NH')
-        return ''
+    elif query == 'weather':
+        return get_weather('Dover, NH')
 
-    return 'Unknown label'
+    return 'Unknown query'
 
+#def threadd():
+#    app.run(debug=False, host='0.0.0.0', port=80)
+#thread.start_new_thread(threadd,())
 
-# NECU stuff
-start_time = time.time()
-print('Contacting NECU and downloading account info...')
+def nescrape():
+    global loaded_data
+    global cache
 
-frame = necu.fetch_accounts(browser, True, (environ.get('NECU_Account'), environ.get('NECU_Password')))
-cache.add_frame(frame)
+    print('Web server online.')
 
-loaded_data = True
-end_time = time.time()
-print('Initialization NECU fetch completed. Time: {} seconds'.format(end_time - start_time))
-cache.present().summary('NECU') # Prints out account info to the console.
-# End NECU stuff
+    print('Starting Webdriver/PhantomJS...')
+    browser = webdriver.PhantomJS('tools/phantomjs.exe')
+    print('Webdriver started.')
+    cache = Cache(browser)
+    print('Cache initialized.')
 
-# Start web server
+    weather = internal_api('weather')
+    print(weather)
+
+    # NECU stuff
+    start_time = time.time()
+    print('Contacting NECU and downloading account info...')
+
+    frame = necu.fetch_accounts(browser, True, (environ.get('NECU_Account'), environ.get('NECU_Password')))
+    cache.add_frame(frame)
+
+    loaded_data = True
+    end_time = time.time()
+    print('Initialization NECU fetch completed. Time: {} seconds'.format(end_time - start_time))
+    cache.present().summary('NECU') # Prints out account info to the console.
+thread.start_new_thread(nescrape,())
+
 app.run(debug=False, host='0.0.0.0', port=80)
