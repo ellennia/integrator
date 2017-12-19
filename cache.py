@@ -15,6 +15,9 @@
 # Python standard library imports
 import time
 
+# Third-party library imports
+import sqlalchemy
+
 # Local (project) imports
 import necu
 
@@ -22,6 +25,32 @@ import necu
     An entire persons online banking account.
     Has more accounts (savings/checking etc.) can be attached
     to this Frame.
+
+'''
+'''
+    Database:
+
+    The only data actually stored in the database are the frame time and the Account
+    objects- everything else (count, available, total, etc.), being
+    self-contained functions, do not store any data, and therefore
+    can be ignored when creating the database.
+
+    TABLE Frames: (id int, time text)
+    TABLE Accounts: (id int, frame_id int, name text, available text, total text)
+
+    Acounts are linked to frames via frame_id
+
+    Currently account transactions are not downloaded and stored in the Account
+    object, so they too can be ignored. They will be stored in a seperate TABLE,
+    Transactions.
+
+    -
+
+    Every time a Frame is created and added to the Cache, the Cache automatically
+    adds the [Frames] and [Accounts] to the SQL database. Upon application load,
+    the SQL database automatically loads all the old [Frames]/[Accounts], and uses
+    the newest data for page load before it loads new data, therefore allowing the
+    application to serve a page instantly after starting.
 '''
 class Frame():
     '''

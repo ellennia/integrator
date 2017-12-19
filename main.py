@@ -9,10 +9,12 @@
         Starts a server on: http://localhost:80.
 
     Todo:
-        - Store account data in a sqlite3 database so reloading doesn't necessarily fetch (SQLAlchemy).
-        - Use OpenWeatherMap in weather.py to fetch weather information.
-        - Fetch transactions from NECU. By extension, make sound when transaction occurs.
-        - Get gas prices somehow. AAA?
+        - 1. Store account data in a sqlite3 database so reloading script doesn't necessarily require fetch. (SQLAlchemy?).
+        - 2. Website should start immediately after program does- other code runs in background thread. Dummy or SQL data is displayed.
+        - Weather: Use OpenWeatherMap in weather.py to fetch weather information. Has very simple Python API
+        - Transactions: Fetch transactions from NECU. By extension, make sound when transaction occurs. Need to have PhantomJS download file
+        - Gas prices: Get gas prices somehow. AAA?
+        - Etc: Rely more on /api
 ''' 
 
 # Python standard library imports
@@ -32,12 +34,11 @@ from forex_python.converter import CurrencyRates # From fixer.io, updated every 
 # Local (project) imports
 from cache import *
 from weather import *
+from alarm import *
 import necu
 
 print('Starting Integrator [Imports successful] ; OS user account name: \'{}\''.format(environ.get('USERNAME')))
 app = Flask(__name__) # Initialize Flask
-
-# Main, global webdriver browser shared among files.
 print('Starting Webdriver/PhantomJS...')
 browser = webdriver.PhantomJS('tools/phantomjs.exe')
 print('Webdriver started.')
@@ -45,13 +46,11 @@ cache = Cache(browser)
 print('Cache initialized.')
 
 loaded_data = False
-
 requests = 0
-
 alarms = []
 
 '''
-    The main page of the web app.
+    The main page
 '''
 @app.route('/')
 def integrator():
@@ -85,10 +84,10 @@ def integrator():
                 fcount = str(cache.framecount())
                 )
     else:
-        page = '<h1>\n'
+        page = '<html><center><h1>\n'
         page += 'The page hasn\'t quite warmed up yet. You probably wouldn\'t like it cold.<br>\n'
         page += 'Care to wait? :)<br>\n'
-        page += '</h1>\n'
+        page += '</h1></center></html>\n'
         return page
 
 '''
@@ -122,9 +121,8 @@ cache.add_frame(frame)
 loaded_data = True
 end_time = time.time()
 print('Initialization NECU fetch completed. Time: {} seconds'.format(end_time - start_time))
-print('Website accessible now.')
 cache.present().summary('NECU') # Prints out account info to the console.
 # End NECU stuff
 
+# Start web server
 app.run(debug=False, host='0.0.0.0', port=80)
-print('Website running.')

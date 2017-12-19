@@ -6,9 +6,9 @@
 			}, 10 * 1000);
 
 			balance_fetcher = function() {
-				setTimeout(balance_fetcher, 10000)
+				setTimeout(balance_fetcher, 10 * 1000)
 			}
-			setTimeout(balance_fetcher, 10000)
+			setTimeout(balance_fetcher, 10 * 1000)
 
 			clock_updater = function() {
 				var time = new Date().toLocaleTimeString()
@@ -22,20 +22,20 @@
 		<center>
 			<h3>Integrator Alpha</h3>
 			<table>
-				<td width=400>
+				<td width=600>
 					<center>
 						<h2>{{ user }}'s NECU Account Details</h2>
 						<b>account / available / total</b><br>
 						{{ data }}
-						<div id = 'balance'><h1>Available: {{ balance }}</h1></div>
+						<div id = 'balance' style = 'font-size: 56pt;'>Available: ${{ balance }}</div>
 
 						<h4>Forex data (equivalents):</h4>
-						{{ forex_data }}
+						<b>{{ forex_data }}</b>
 					</center>
 				</td>
-				<td width=400>
+				<td width=600>
 					<center>
-						<div id = 'clock'><div>
+						<div id = 'clock' style = 'font-size: 42pt;'><div>
 					</center>
 				</td>
 			</table>
