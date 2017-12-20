@@ -6,7 +6,14 @@ in an NECU bank account, and the current time, as well as some
 conversions between the bank balance and some foreign currencies
 using a forex library.
 
-## What tools this code uses
+## Why?
+Because NECU doesn't have an API, and I wanted access to my financial info.
+In addition, many other service I like don't have APIs- such as the Hannaford (grocery store)
+website. I wanted to have a central location to scrape and display information from all these
+services that I can check "at a glance", and integrate together to form a concise look at my
+personal 'financial surroundings', if that makes sense..
+
+## What tools this code uses:
 + Flask
 + Selenium Webdriver
 + python-forex - fixer.io
