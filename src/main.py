@@ -124,7 +124,7 @@ def nescrape():
     global cache
 
     print('Starting Webdriver/PhantomJS...')
-    browser = webdriver.PhantomJS('tools/phantomjs.exe')
+    browser = webdriver.PhantomJS('../tools/phantomjs.exe')
     print('Webdriver started.')
     cache = Cache(browser)
     print('Cache initialized.')
