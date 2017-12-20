@@ -1,5 +1,17 @@
 # Integrator
 
+## What this code currently does:
+It starts a web server, serving a page that details the funds
+in an NECU bank account, and the current time, as well as some
+conversions between the bank balance and some foreign currencies
+using a forex library.
+
+## What tools this code uses
++ Flask
++ Selenium Webdriver
++ python-forex - fixer.io
++ SQLAlchemy
+
 ## Files, and what they do/are:
 ### Code
 + main.py
@@ -20,6 +32,9 @@ information.
 + weather.py
 The weather driver. Fetches (or at least will fetch) weather information
 from the service OpenWeatherMap.
+
++ alarm.py / work.py
+Currently unused. Time related code and job/gig related code, respectively.
 
 ### Templates, etc.:
 + templates/home.html
