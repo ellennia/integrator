@@ -1,17 +1,14 @@
 # Integrator
 
 ## What this code currently does:
-It starts a web server, serving a page that details the funds
-in an NECU bank account, and the current time, as well as some
-conversions between the bank balance and some foreign currencies
-using a forex library.
+It starts a web server on localhost:80, serving a page that displays the funds in an NECU online banking account, the current time, as well as some conversions between the bank balance and some foreign currencies using a forex library. If you have an NECU account, this code may be of interest to you.
 
 ## Why?
-Because NECU doesn't have an API, and I wanted access to my financial info.
-In addition, many other service I like don't have APIs- such as the Hannaford (grocery store)
-website. I wanted to have a central location to scrape and display information from all these
-services that I can check "at a glance", and integrate together to form a concise look at my
-personal 'financial surroundings', if that makes sense..
+The primary purpose is to integrate all my financial information in one place. I want to have an auto-updating interface that shows me in realtime what resources I have access to, what I can do with though resources, and what my immediate environment looks like.
+
+Because my credit union, Northeast Credit Union, does not have an API for their online banking system (shame), I had to write a scraper using Selenium Webdriver to obtain the information. This is one of the most important features of this program- it scrapes and fetches that account information.
+
+In addition, many other service I use don't have APIs- such as the Hannaford (grocery store) website. I wanted to have a central location to scrape and display information from all these services that I can check "at a glance", and integrate together to form a concise look at my personal 'financial surroundings', if that makes sense. With the boilerplate in place, I could see weird stats such as, say, how many miles I could drive in my car by taking the financial information, multiplying it by local gas prices and then computing it against my car's gas mileage.
 
 ## What tools this code uses:
 + Flask

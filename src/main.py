@@ -124,7 +124,7 @@ def nescrape():
     global cache
 
     print('Starting Webdriver/PhantomJS...')
-    browser = webdriver.PhantomJS('../tools/phantomjs.exe')
+    browser = webdriver.Firefox()
     print('Webdriver started.')
     cache = Cache(browser)
     print('Cache initialized.')
@@ -141,8 +141,6 @@ def nescrape():
             True, 
             (environ.get('NECU_Account'), environ.get('NECU_Password'))
             )
-    session.add(frame)
-    session.commit()
     cache.add_frame(frame)
 
     loaded_data = True

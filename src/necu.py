@@ -18,6 +18,22 @@ import cache
 
 debug = True
 
+class TransferRule():
+    '''
+        Start: ID of first account
+        End: ID of second account
+        Percentage: Percentage to transfer
+    '''
+    def __init__(self, start, end, percentage):
+        self.start = start
+        self.end = end
+        self.percentage = percentage
+
+    def shuffle(self, amount):
+        to_move = amount / percentage
+
+
+
 def login_necu(browser, login_info):
     global debug
 
@@ -41,6 +57,25 @@ def login_necu(browser, login_info):
         browser.implicitly_wait(10)
     except: pass
 
+def do_transfer(browser, acc1, acc2, amount):
+    amount = 5.00
+    elm = browser.find_element_by_id('ctl00_ctl27_retailSecondaryMenuAccountTransfersMenuItemLinkButton')
+    elm.send_keys(Keys.RETURN)
+    browser.implicitly_wait(10)
+
+    amount_field = browser.find_element_by_id('ctl00_PageContent_ctl00_Template_transferAmount')
+    amount_field.send_keys(str(amount))
+
+    from_field = browser.find_element_by_id('ctl00_PageContent_ctl00_Template_TransferFromAccountLabel')
+    from_field.send_keys(Keys.DOWN)
+    from_field.send_keys(Keys.DOWN)
+
+    to_field = browser.find_element_by_id('ctl00_PageContent_ctl00_Template_transferToAccount')
+    to_field.send_keys(Keys.DOWN)
+
+    submit = browser.find_element_by_id('submit-transfer')
+    submit.send_keys(Keys.RETURN)
+
 '''
     Log into, then scrape NECU's website for account information.
     The username and password are retrieved from environmental 
@@ -62,6 +97,8 @@ def fetch_accounts(browser, do_login, login_info):
             money_amounts.append(Decimal('-' + melement.get_attribute('innerHTML')[2:-1]))
         else:
             money_amounts.append(Decimal(melement.get_attribute('innerHTML')[1:]))
+
+    do_transfer(browser, 0, 0, 10)
     accounts = []
     accounts.append(('Savings', money_amounts[0], money_amounts[1]))
     accounts.append(('Checking', money_amounts[2], money_amounts[3]))
