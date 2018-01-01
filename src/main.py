@@ -84,11 +84,11 @@ def integrator():
         dataset_2_forex = Markup(markdown.markdown(page2))
         return render_template('home.html', 
                 user = account_name, 
-                balance = str(frame.available()),
+                necu_balance = str(frame.available()),
                 data = dataset_1_necu,
-                forex_data = dataset_2_forex,
-                rcount = str(requests),
-                fcount = str(cache.framecount())
+                forex_conversions = dataset_2_forex,
+                request_count = str(requests),
+                frame_count = str(cache.framecount())
                 )
     else:
         return render_template('cold.html')
