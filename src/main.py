@@ -28,7 +28,7 @@ import time
 import json
 
 # Third party libraries imports
-from flask import Flask, Markup, render_template
+from flask import Flask, Markup, render_template, jsonify
 from selenium import webdriver
 from sqlalchemy import *
 from sqlalchemy.orm import sessionmaker
@@ -91,17 +91,18 @@ def integrator():
                 frame_count = str(cache.framecount())
                 )
     else:
+        print 'thawing iceburgs'
         return render_template('cold.html')
 
 '''
     Data retrieve and submit function.
 '''
-@app.route('/api', methods = ['POST'])
+@app.route('/api/data')
 def info_fetcher():
+    print 'API accessed'
     function = '' # Post or get
     label = '' # The piece of data being retrieved
-    internal_api(label)
-
+    return jsonify('$' + str(cache.present().available()))
 
 def internal_api(query):
     # Returns the newest Frame, jsonified
@@ -115,16 +116,12 @@ def internal_api(query):
 
     return 'Unknown query'
 
-#def threadd():
-#    app.run(debug=False, host='0.0.0.0', port=80)
-#thread.start_new_thread(threadd,())
-
 def nescrape():
     global loaded_data
     global cache
 
     print('Starting Webdriver/PhantomJS...')
-    browser = webdriver.Firefox()
+    browser = webdriver.PhantomJS('../tools/phantomjs')
     print('Webdriver started.')
     cache = Cache(browser)
     print('Cache initialized.')

@@ -98,7 +98,6 @@ def fetch_accounts(browser, do_login, login_info):
         else:
             money_amounts.append(Decimal(melement.get_attribute('innerHTML')[1:]))
 
-    do_transfer(browser, 0, 0, 10)
     accounts = []
     accounts.append(('Savings', money_amounts[0], money_amounts[1]))
     accounts.append(('Checking', money_amounts[2], money_amounts[3]))
